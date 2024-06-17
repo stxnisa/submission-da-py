@@ -7,12 +7,20 @@ import streamlit as st
 st.title("Proyek Analisis Data: Bike Sharing Dataset")
 
 # Memuat data
-df_hour = pd.read_csv('hour.csv')
-df_daily = pd.read_csv('day.csv')
+try:
+    df_hour = pd.read_csv('hour.csv')
+    df_daily = pd.read_csv('day.csv')
+except FileNotFoundError as e:
+    st.error(f"Error loading data: {e}")
+    st.stop()
 
 # Cleaning data
 df_hour['dteday'] = pd.to_datetime(df_hour['dteday'])
 df_daily['dteday'] = pd.to_datetime(df_daily['dteday'])
+
+# Pastikan kolom ada
+st.write("Hourly data columns:", df_hour.columns.tolist())
+st.write("Daily data columns:", df_daily.columns.tolist())
 
 # Data Merging
 hourly_agg = df_hour.groupby('dteday').agg({
