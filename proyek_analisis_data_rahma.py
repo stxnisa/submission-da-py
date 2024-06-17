@@ -82,4 +82,32 @@ weather_cluster = df.groupby('weather_category').agg({
 st.header("Pengaruh Musim dan Cuaca terhadap Penyewaan Sepeda")
 st.subheader("Rata-rata Penyewaan Sepeda Berdasarkan Musim")
 plt.figure(figsize=(10, 6))
-sns.barplot(data=season_cluster, x='season_category', y='c
+sns.barplot(data=season_cluster, x='season_category', y='cnt_daily')
+plt.title('Average Rentals by Season')
+st.pyplot(plt)
+
+st.subheader("Rata-rata Penyewaan Sepeda Berdasarkan Cuaca")
+plt.figure(figsize=(10, 6))
+sns.barplot(data=weather_cluster, x='weather_category', y='cnt_daily')
+plt.title('Average Rentals by Weather')
+st.pyplot(plt)
+
+# Pertanyaan 3: Pengaruh Suhu, Kelembapan, dan Kecepatan Angin
+st.header("Pengaruh Suhu, Kelembapan, dan Kecepatan Angin terhadap Penyewaan Sepeda Harian")
+st.subheader("Rentals vs Temperature (Daily)")
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=df, x='temp_daily', y='cnt_daily')
+plt.title('Rentals vs Temperature (Daily)')
+st.pyplot(plt)
+
+st.subheader("Rentals vs Humidity (Daily)")
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=df, x='hum_daily', y='cnt_daily')
+plt.title('Rentals vs Humidity (Daily)')
+st.pyplot(plt)
+
+st.subheader("Rentals vs Wind Speed (Daily)")
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=df, x='windspeed_daily', y='cnt_daily')
+plt.title('Rentals vs Wind Speed (Daily)')
+st.pyplot(plt)
