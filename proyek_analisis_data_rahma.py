@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 from babel.numbers import format_currency
+from datetime import datetime
 
 # Pengaturan gaya untuk seaborn
 sns.set(style='dark')
@@ -47,10 +48,13 @@ df.sort_values(by="rent_start_date", inplace=True)
 df.reset_index(inplace=True)
 
 # Rentang tanggal untuk sidebar
-min_date = df["rent_start_date"].min()
-max_date = df["rent_start_date"].max()
- 
+min_date = df["rent_start_date"].min().date()
+max_date = df["rent_start_date"].max().date()
+
 with st.sidebar:
+    # Menambahkan logo perusahaan
+    st.image("https://github.com/dicodingacademy/assets/raw/main/logo.png")
+    
     # Mengambil start_date & end_date dari date_input
     start_date, end_date = st.date_input(
         label='Rentang Waktu', min_value=min_date,
@@ -58,9 +62,13 @@ with st.sidebar:
         value=[min_date, max_date]
     )
 
+# Konversi start_date dan end_date ke datetime
+start_date = pd.to_datetime(start_date)
+end_date = pd.to_datetime(end_date)
+
 # Filter data berdasarkan rentang tanggal
-main_df = df[(df["rent_start_date"] >= str(start_date)) & 
-             (df["rent_start_date"] <= str(end_date))]
+main_df = df[(df["rent_start_date"] >= start_date) & 
+             (df["rent_start_date"] <= end_date)]
 
 # Pertanyaan 1: Tren penyewaan sepeda
 st.header("Tren Penyewaan Sepeda dari Waktu ke Waktu")
